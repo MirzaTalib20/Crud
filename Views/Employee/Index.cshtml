@@ -1,0 +1,181 @@
+﻿@model IEnumerable<CrudOneMore.Models.EmpModel>
+
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<h2>Employee List </h2>
+<td>
+    <input type="button" value="Add" class="btn btn-primary" onclick="location.href='@Url.Action("Add", "Employee")'" />
+
+</td> &nbsp;
+
+
+<input type="button" value="Deleted List" class="btn btn-primary" onclick="location.href='@Url.Action("ViewDelete", "Employee")'" />
+
+<input type="button" value="ExportToExcel" class="btn btn-primary" onclick="location.href='@Url.Action("ExportToExcel", "Employee")'" />
+
+<input type="button" value="PrintPDF" class="btn btn-primary" onclick="location.href='@Url.Action("PrintPDF", "Employee")'" />
+<br />
+<br />
+
+<table class="table">
+    <div class="container-fluid">
+        <div class="form-group">
+            <div class="row">
+                @using (Html.BeginForm("Index", "Employee", FormMethod.Post))
+                {
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Search</label>
+                            <div class="col-md-8">
+                                <input type="text" name="searchText" value="" class="form-control" placeholder="Search your text here" style="max-width: 50%" />
+                            </div>
+                            <div class="col-md-2">
+                                <button class="btn btn-primary" type="submit">Search</button>
+                            </div>
+
+
+
+
+
+                        </div>
+                    </div>
+                }
+            </div>
+
+
+            <div class="row">
+                <div class="form-group">
+                    <table class="table table-bordered table-striped bg-info">
+                        <tr style="color:black">
+
+                            <th>
+                                @Html.ActionLink("Name", "Index", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), SortBy = "Name" })
+                            </th>
+
+                            <th>
+                                @Html.ActionLink("Email", "Index", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), SortBy = "Email" })
+                            </th>
+
+                            <th>
+                                @Html.ActionLink("Password", "Index", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), SortBy = "Password" })
+                            </th>
+
+                            <th>
+                                @Html.ActionLink("Gender", "Index", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), SortBy = "Gender" })
+                            </th>
+
+                            <th> @*<th>@Html.DisplayNameFor(model => model.Status) </th>*@</th>
+                        </tr>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr style="color:black">
+                                @*<td>  @Html.DisplayFor(modelItem => item.Id) </td>*@
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Email)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Password)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Gender)
+                                </td>
+
+                                @*<td>
+                                        @Html.DisplayFor(modelItem => item.IsInterestedCSharp)
+                                        @Html.DisplayFor(modelItem => item.IsInterestedJava)
+                                        @Html.DisplayFor(modelItem => item.IsInterestedPython)
+                                    </td>*@
+                                @*<td>
+                                        @Html.DisplayFor(modelItem => item.Status)
+                                    </td>*@
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.Id })  |
+
+
+                                    <input type="button" value="Delete" class="btn btn-danger" onclick="location.href='@Url.Action("Delete", "Employee", new { id = item.Id })'" />
+
+                                </td>
+                            </tr>
+                        }
+
+                    </table>
+
+                    @{ double totalPages = ViewBag.TotalPages;
+                        <ul class="pagination">
+                            @if (ViewBag.Page == 1)
+                            {
+                                <li>
+                                    @Html.ActionLink("Previous", "Index", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : ViewBag.SortOrder, SortBy = ViewBag.SortBy == null ? "Name" : ViewBag.SortBy, Page = ViewBag.Page - 1 })
+                                </li>
+                            }
+                            else
+                            {
+                                <li>
+                                    @Html.ActionLink("Previous", "Index", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : ViewBag.SortOrder, SortBy = ViewBag.SortBy == null ? "Name" : ViewBag.SortBy, Page = ViewBag.Page + 1 })
+                                </li>
+
+                            }
+
+
+
+
+
+
+
+
+
+                            @for (int i = 1; i <= totalPages; i++)
+                            {
+                                if (i == ViewBag.TotalPages)
+                                {
+                                    <li>
+                                        @Html.ActionLink(i.ToString(), "Index", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : ViewBag.SortOrder, SortBy = ViewBag.SortBy == null ? "Name" : ViewBag.SortBy, Page = i })
+
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li>
+                                        @Html.ActionLink(i.ToString(), "Index", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : ViewBag.SortOrder, SortBy = ViewBag.SortBy == null ? "Name" : ViewBag.SortBy, Page = i })
+                                    </li>
+                                }
+
+                            }
+                            @if (ViewBag.Page == totalPages)
+                            {
+                                <li>
+                                    @Html.ActionLink("Next", "Index", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : ViewBag.SortOrder, SortBy = ViewBag.SortBy == null ? "Name" : ViewBag.SortBy, Page = ViewBag.Page })
+                                </li>
+                            }
+                            else
+                            {
+                                <li>
+                                    @Html.ActionLink("Next", "Index", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : ViewBag.SortOrder, SortBy = ViewBag.SortBy == null ? "Name" : ViewBag.SortBy, Page = ViewBag.Page + 1 })
+                                </li>
+
+                            }
+                        </ul>
+
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</table>
+
+
+@*@Html.PagedListPager(Model, Page => Url.Action("Index", "Employee", new {Page,search=Request.QueryString["search"] }))*@

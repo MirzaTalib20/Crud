@@ -1,0 +1,35 @@
+﻿@model List<CrudOneMore.Models.EmpModel>  
+  
+<style>  
+    thead {  
+        background-color:black;  
+        color:white  
+    }  
+    table {  
+        border:1px solid black;  
+    }  
+    td, th {  
+        padding:5px;  
+           font-size:14px;  
+    }  
+</style>  
+  
+<table class="table table-bordered table-striped" border="1" style="border-color:black">  
+    <thead>  
+        <tr>  
+            <th>Name</th>  
+            <th>Email</th>  
+            <th>Password</th>  
+        </tr>  
+    </thead>  
+    <tbody>  
+        @foreach (var item in Model)  
+        {  
+            <tr>  
+                <td>@item.Name</td>  
+                <td>@item.Email</td>  
+                <td>@item.Password</td>  
+            </tr>  
+        }  
+    </tbody>  
+</table>  
